@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - BookBlog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        theme: {
+                            bg: '#FFFBF5',
+                            text: '#1C1917',
+                            primary: '#A0522D',
+                            secondary: '#F59E0B',
+                            surface: '#FFFFFF',
+                            muted: '#78716c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #FFFBF5;
+            color: #1C1917;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen relative overflow-hidden py-10">
+
+    <!-- Elementos Decorativos -->
+    <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#FFDEE9] rounded-full blur-[120px] opacity-30 z-0">
+    </div>
+    <div
+        class="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#F5F5DC] rounded-full blur-[120px] opacity-40 z-0">
+    </div>
+
+    <!-- TARJETA DE REGISTRO -->
+    <div class="w-full max-w-md bg-white p-10 rounded-3xl shadow-2xl relative z-10 border border-[#E7E5E4]">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-serif font-bold text-theme-text mb-2">Crear Cuenta</h2>
+            <p class="text-theme-muted text-sm">Únete a nuestra comunidad de lectores.</p>
+        </div>
+
+        <form class="space-y-5">
+            <div>
+                <label class="block text-xs font-bold text-theme-text uppercase tracking-wider mb-2">Nombre
+                    Completo</label>
+                <input type="text" placeholder="Ej. Ana García"
+                    class="w-full bg-[#F5F5F4] border-transparent focus:bg-white focus:border-theme-primary focus:ring-0 rounded-xl px-4 py-3 transition-all outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-theme-text uppercase tracking-wider mb-2">Correo
+                    Electrónico</label>
+                <input type="email" placeholder="lector@ejemplo.com"
+                    class="w-full bg-[#F5F5F4] border-transparent focus:bg-white focus:border-theme-primary focus:ring-0 rounded-xl px-4 py-3 transition-all outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-theme-text uppercase tracking-wider mb-2">Contraseña</label>
+                <input type="password" placeholder="Mínimo 8 caracteres"
+                    class="w-full bg-[#F5F5F4] border-transparent focus:bg-white focus:border-theme-primary focus:ring-0 rounded-xl px-4 py-3 transition-all outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-theme-text uppercase tracking-wider mb-2">Confirmar
+                    Contraseña</label>
+                <input type="password" placeholder="Repite la contraseña"
+                    class="w-full bg-[#F5F5F4] border-transparent focus:bg-white focus:border-theme-primary focus:ring-0 rounded-xl px-4 py-3 transition-all outline-none">
+            </div>
+
+            <div class="flex items-start gap-2 text-sm mt-2">
+                <input type="checkbox" class="accent-theme-primary rounded mt-1">
+                <span class="text-theme-muted text-xs">Acepto los <a href="#"
+                        class="underline hover:text-theme-primary">Términos y Condiciones</a> y la Política de
+                    Privacidad.</span>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-theme-primary hover:bg-[#8B4513] text-white font-bold py-3.5 rounded-xl shadow-lg transition-transform hover:-translate-y-0.5 mt-2">
+                Registrarse
+            </button>
+        </form>
+
+        <div class="mt-8 text-center text-sm text-theme-muted">
+            ¿Ya tienes cuenta? <a href="login.html" class="text-theme-primary font-bold hover:underline">Inicia
+                Sesión</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

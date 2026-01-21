@@ -1,0 +1,18 @@
+# System files
+.DS_Store
+.Thumbs.db
+
+# Uploads / User content
+/public/covers/*
+!/public/covers/.gitkeep
+
+# Vendor / Dependencies
+vendor/
+node_modules/
+
+# Config files with sensitive info (optional, but good practice)
+# config/config.php (Si tuviera claves reales, ahora usamos Docker envs asi que esta bien)
+
+# Docker volumes / Data
+mysql-data/
+postgres-data/
