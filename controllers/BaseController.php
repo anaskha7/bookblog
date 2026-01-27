@@ -67,4 +67,9 @@ class BaseController
         $role = $this->currentUser()['role'] ?? '';
         return in_array($role, ['admin', 'writer'], true);
     }
+
+    protected function setFlash(string $message, string $type = 'success'): void
+    {
+        $_SESSION['flash'] = ['message' => $message, 'type' => $type];
+    }
 }

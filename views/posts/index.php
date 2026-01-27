@@ -222,18 +222,20 @@
         </div>
 
         <!-- Widget Suscripción -->
-        <div class="bg-theme-text text-white p-8 rounded-3xl shadow-lg text-center relative overflow-hidden">
-            <div class="relative z-10">
-                <h4 class="font-serif font-bold text-xl mb-2">Newsletter</h4>
-                <p class="text-white/60 text-sm mb-6">Recibe las mejores reseñas semanalmente en tu correo.</p>
-                <input type="email" placeholder="tu@email.com"
-                    class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-sm mb-3 placeholder-white/30 focus:bg-white/20 outline-none">
-                <button
-                    class="w-full bg-theme-primary hover:bg-[#8B4513] text-white font-bold py-3 rounded-xl transition-colors">Suscribirse</button>
+        <?php if (empty($_SESSION['user_id'])): ?>
+            <div class="bg-theme-text text-white p-8 rounded-3xl shadow-lg text-center relative overflow-hidden">
+                <div class="relative z-10">
+                    <h4 class="font-serif font-bold text-xl mb-2">Newsletter</h4>
+                    <p class="text-white/60 text-sm mb-6">Recibe las mejores reseñas semanalmente en tu correo.</p>
+                    <input type="email" placeholder="tu@email.com"
+                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-sm mb-3 placeholder-white/30 focus:bg-white/20 outline-none">
+                    <button
+                        class="w-full bg-theme-primary hover:bg-[#8B4513] text-white font-bold py-3 rounded-xl transition-colors">Suscribirse</button>
+                </div>
+                <!-- Decoración -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-theme-primary/30 rounded-full blur-2xl"></div>
             </div>
-            <!-- Decoración -->
-            <div class="absolute -top-10 -right-10 w-32 h-32 bg-theme-primary/30 rounded-full blur-2xl"></div>
-        </div>
+        <?php endif; ?>
 
     </aside>
 </div>

@@ -52,13 +52,21 @@ class Post
             ':id' => $id,
         ];
 
+        $updates = ['title = :title', 'content = :content'];
+
         if (isset($data['status'])) {
-            $fields[] = 'status';
+            $updates[] = 'status = :status';
             $params[':status'] = $data['status'];
-            $sql = 'UPDATE posts SET title = :title, content = :content, status = :status, updated_at = NOW() WHERE id = :id';
-        } else {
-            $sql = 'UPDATE posts SET title = :title, content = :content, updated_at = NOW() WHERE id = :id';
         }
+
+        if (isset($data['image_url'])) {
+            $updates[] = 'image_url = :image_url';
+            $params[':image_url'] = $data['image_url'];
+        }
+
+        $updates[] = 'updated_at = NOW()';
+
+        $sql = 'UPDATE posts SET ' . implode(', ', $updates) . ' WHERE id = :id';
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);

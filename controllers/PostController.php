@@ -55,55 +55,69 @@ class PostController extends BaseController
         ]);
     }
 
+    private function handleFileUpload(?array $file, array &$errors): ?string
+    {
+        if (!$file || ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+
+        if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            $errors[] = 'Error al subir el archivo.';
+            return null;
+        }
+
+        $maxSize = 5 * 1024 * 1024;
+        if ($file['size'] > $maxSize) {
+            $errors[] = 'La portada no puede superar 5MB.';
+            return null;
+        }
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($file['tmp_name']);
+        $allowed = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/webp' => 'webp',
+        ];
+
+        if (!isset($allowed[$mime])) {
+            $errors[] = 'Formato de imagen no permitido. Usa JPG, PNG o WEBP.';
+            return null;
+        }
+
+        $uploadsDir = __DIR__ . '/../public/uploads';
+        if (!is_dir($uploadsDir)) {
+            mkdir($uploadsDir, 0755, true);
+        }
+
+        $filename = 'cover_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $allowed[$mime];
+        $destination = $uploadsDir . '/' . $filename;
+
+        if (!move_uploaded_file($file['tmp_name'], $destination)) {
+            $errors[] = 'No se pudo guardar la portada. Inténtalo de nuevo.';
+            return null;
+        }
+
+        return '/public/uploads/' . $filename;
+    }
+
     public function create(): void
     {
         $this->requireLogin();
-        // Todos los usuarios logueados pueden crear posts ahora
 
         $errors = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST['title'] ?? '');
             $content = trim($_POST['content'] ?? '');
-            $imageFile = $_FILES['image'] ?? null;
 
             if ($title === '' || $content === '') {
                 $errors[] = 'Completa todos los campos.';
             }
 
-            if (!$imageFile || ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            $imagePath = $this->handleFileUpload($_FILES['image'] ?? null, $errors);
+
+            if (!$imagePath && empty($errors)) {
                 $errors[] = 'La portada es obligatoria.';
-            }
-
-            $imagePath = null;
-            if (empty($errors) && $imageFile && ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-                $maxSize = 5 * 1024 * 1024;
-                if ($imageFile['size'] > $maxSize) {
-                    $errors[] = 'La portada no puede superar 5MB.';
-                } else {
-                    $finfo = new finfo(FILEINFO_MIME_TYPE);
-                    $mime = $finfo->file($imageFile['tmp_name']);
-                    $allowed = [
-                        'image/jpeg' => 'jpg',
-                        'image/png' => 'png',
-                        'image/webp' => 'webp',
-                    ];
-
-                    if (!isset($allowed[$mime])) {
-                        $errors[] = 'Formato de imagen no permitido. Usa JPG, PNG o WEBP.';
-                    } else {
-                        $coversDir = __DIR__ . '/../public/covers';
-                        if (!is_dir($coversDir)) {
-                            mkdir($coversDir, 0755, true);
-                        }
-                        $filename = 'cover_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $allowed[$mime];
-                        $destination = $coversDir . '/' . $filename;
-                        if (!move_uploaded_file($imageFile['tmp_name'], $destination)) {
-                            $errors[] = 'No se pudo guardar la portada. Inténtalo de nuevo.';
-                        } else {
-                            $imagePath = '/public/covers/' . $filename;
-                        }
-                    }
-                }
             }
 
             if (empty($errors)) {
@@ -114,12 +128,9 @@ class PostController extends BaseController
                     'image_url' => $imagePath,
                 ]);
 
-                WebhookClient::send('post_created', [
-                    'id' => $postId,
-                    'title' => $title,
-                    'author_id' => $_SESSION['user_id'],
-                ]);
 
+
+                $this->setFlash('¡Reseña publicada con éxito! Gracias por compartir.');
                 $this->redirect(BASE_URL . '?controller=post&action=show&id=' . $postId);
             }
         }
@@ -153,8 +164,16 @@ class PostController extends BaseController
                 $errors[] = 'Completa todos los campos.';
             }
 
+            $imagePath = $this->handleFileUpload($_FILES['image'] ?? null, $errors);
+
             if (empty($errors)) {
-                $this->postModel->update($id, ['title' => $title, 'content' => $content]);
+                $updateData = ['title' => $title, 'content' => $content];
+                if ($imagePath) {
+                    $updateData['image_url'] = $imagePath;
+                }
+
+                $this->postModel->update($id, $updateData);
+                $this->setFlash('La reseña se ha actualizado correctamente.');
                 $this->redirect(BASE_URL . '?controller=post&action=show&id=' . $id);
             }
         }
@@ -181,6 +200,7 @@ class PostController extends BaseController
         }
 
         $this->postModel->delete($id);
+        $this->setFlash('La reseña ha sido eliminada.');
         $this->redirect(BASE_URL);
     }
 }

@@ -15,8 +15,7 @@
             <h5 class="font-bold mb-4 text-theme-text">Enlaces</h5>
             <ul class="space-y-2 text-sm text-theme-muted">
                 <li><a href="<?= BASE_URL ?>" class="hover:text-theme-primary transition-colors">Inicio</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=rag&action=ask"
-                        class="hover:text-theme-primary transition-colors">AI Search</a></li>
+
                 <li><a href="#" class="hover:text-theme-primary transition-colors">Sobre Nosotros</a></li>
             </ul>
         </div>

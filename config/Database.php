@@ -9,10 +9,10 @@ class Database
 
     public function __construct()
     {
-        $this->host = getenv('DB_HOST') ?: 'mysql';
+        $this->host = getenv('DB_HOST') ?: 'db';
         $this->dbname = getenv('DB_NAME') ?: 'book_blog';
-        $this->user = getenv('DB_USER') ?: 'root';
-        $this->password = getenv('DB_PASS') ?: 'anas7anas';
+        $this->user = getenv('DB_USER') ?: 'user';
+        $this->password = getenv('DB_PASS') ?: 'secret';
     }
 
     public function getConnection(): PDO

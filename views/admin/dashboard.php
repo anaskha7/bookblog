@@ -1,66 +1,93 @@
-<section class="py-8">
-    <div class="w-full px-4">
+<section class="py-12 mb-20">
+    <div class="w-full max-w-6xl mx-auto px-6">
         <!-- Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-5xl font-bold text-white mb-2 flex items-center justify-center gap-3">
-                <i class="fas fa-shield-alt text-teal-400"></i>Gestión
+        <div class="mb-12 border-b border-[#E7E5E4] pb-8">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-theme-text mb-4">
+                Panel de Control
             </h1>
-            <p class="text-slate-400 text-lg">Controla todo desde aquí</p>
+            <p class="text-theme-muted text-lg font-light tracking-wide">
+                Bienvenido al centro de gestión editorial.
+            </p>
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
             <!-- Users Card -->
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200 hover:shadow-xl transition-all transform hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl">
+            <div class="bg-white rounded-xl p-8 border border-[#E7E5E4] shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="text-theme-text text-xl">
                         <i class="fas fa-users"></i>
                     </div>
-                    <span class="text-xs font-bold text-blue-600 bg-blue-200 px-3 py-1 rounded-full">Total</span>
+                    <span
+                        class="text-[10px] font-bold tracking-widest uppercase text-theme-muted border border-[#E7E5E4] px-2 py-1 rounded">Lectores</span>
                 </div>
-                <p class="text-slate-700 text-sm font-semibold mb-1">Usuarios</p>
-                <p class="text-5xl font-bold gradient-text"><?= $stats['users'] ?></p>
+                <p class="text-5xl font-serif font-bold text-theme-primary mb-2"><?= $stats['users'] ?></p>
+                <p class="text-theme-muted text-sm font-medium">Usuarios registrados</p>
             </div>
 
             <!-- Posts Card -->
-            <div class="bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl p-8 border border-teal-200 hover:shadow-xl transition-all transform hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="bg-teal-500 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl">
-                        <i class="fas fa-book"></i>
+            <div class="bg-white rounded-xl p-8 border border-[#E7E5E4] shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="text-theme-text text-xl">
+                        <i class="fas fa-book-open"></i>
                     </div>
-                    <span class="text-xs font-bold text-teal-600 bg-teal-200 px-3 py-1 rounded-full">Total</span>
+                    <span
+                        class="text-[10px] font-bold tracking-widest uppercase text-theme-muted border border-[#E7E5E4] px-2 py-1 rounded">Catálogo</span>
                 </div>
-                <p class="text-slate-700 text-sm font-semibold mb-1">Reseñas</p>
-                <p class="text-5xl font-bold gradient-text"><?= $stats['posts'] ?></p>
+                <p class="text-5xl font-serif font-bold text-theme-primary mb-2"><?= $stats['posts'] ?></p>
+                <p class="text-theme-muted text-sm font-medium">Reseñas publicadas</p>
             </div>
 
             <!-- Comments Card -->
-            <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-8 border border-pink-200 hover:shadow-xl transition-all transform hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="bg-pink-500 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl">
-                        <i class="fas fa-comments"></i>
+            <div class="bg-white rounded-xl p-8 border border-[#E7E5E4] shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="text-theme-text text-xl">
+                        <i class="fas fa-comment-alt"></i>
                     </div>
-                    <span class="text-xs font-bold text-pink-600 bg-pink-200 px-3 py-1 rounded-full">Total</span>
+                    <span
+                        class="text-[10px] font-bold tracking-widest uppercase text-theme-muted border border-[#E7E5E4] px-2 py-1 rounded">Comunidad</span>
                 </div>
-                <p class="text-slate-700 text-sm font-semibold mb-1">Comentarios</p>
-                <p class="text-5xl font-bold gradient-text"><?= $stats['comments'] ?></p>
+                <p class="text-5xl font-serif font-bold text-theme-primary mb-2"><?= $stats['comments'] ?></p>
+                <p class="text-theme-muted text-sm font-medium">Comentarios totales</p>
             </div>
         </div>
 
         <!-- Actions -->
-        <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-                <i class="fas fa-cogs text-teal-600"></i>Acciones Rápidas
+        <div>
+            <h2 class="text-2xl font-serif font-bold text-theme-text mb-8 flex items-center gap-3">
+                <span class="w-8 h-px bg-theme-primary"></span>
+                Acciones Administrativas
             </h2>
-            <div class="grid md:grid-cols-3 gap-4">
-                <a class="group bg-gradient-to-br from-blue-500 to-blue-600 text-white px-8 py-6 rounded-xl hover:shadow-xl transition-all transform hover:scale-105 text-center font-bold inline-flex items-center justify-center gap-2" href="<?= BASE_URL ?>?controller=admin&action=users">
-                    <i class="fas fa-user-check"></i>Gestionar Usuarios
+            <div class="grid md:grid-cols-3 gap-6">
+                <a href="<?= BASE_URL ?>?controller=admin&action=users"
+                    class="group bg-[#F5F5F4] hover:bg-theme-primary p-8 rounded-xl transition-all duration-300 border border-transparent hover:border-theme-primary text-center">
+                    <div class="text-3xl text-theme-muted group-hover:text-white mb-4 transition-colors">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3 class="font-bold text-theme-text group-hover:text-white mb-2 transition-colors">Usuarios</h3>
+                    <p class="text-xs text-theme-muted group-hover:text-white/80 transition-colors">Gestionar roles y
+                        permisos</p>
                 </a>
-                <a class="group bg-gradient-to-br from-teal-500 to-teal-600 text-white px-8 py-6 rounded-xl hover:shadow-xl transition-all transform hover:scale-105 text-center font-bold inline-flex items-center justify-center gap-2" href="<?= BASE_URL ?>?controller=admin&action=posts">
-                    <i class="fas fa-book-bookmark"></i>Gestionar Reseñas
+
+                <a href="<?= BASE_URL ?>?controller=admin&action=posts"
+                    class="group bg-[#F5F5F4] hover:bg-theme-primary p-8 rounded-xl transition-all duration-300 border border-transparent hover:border-theme-primary text-center">
+                    <div class="text-3xl text-theme-muted group-hover:text-white mb-4 transition-colors">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <h3 class="font-bold text-theme-text group-hover:text-white mb-2 transition-colors">Publicaciones
+                    </h3>
+                    <p class="text-xs text-theme-muted group-hover:text-white/80 transition-colors">Moderación de
+                        reseñas</p>
                 </a>
-                <a class="group bg-gradient-to-br from-pink-500 to-pink-600 text-white px-8 py-6 rounded-xl hover:shadow-xl transition-all transform hover:scale-105 text-center font-bold inline-flex items-center justify-center gap-2" href="<?= BASE_URL ?>?controller=admin&action=comments">
-                    <i class="fas fa-comment-dots"></i>Gestionar Comentarios
+
+                <a href="<?= BASE_URL ?>?controller=admin&action=comments"
+                    class="group bg-[#F5F5F4] hover:bg-theme-primary p-8 rounded-xl transition-all duration-300 border border-transparent hover:border-theme-primary text-center">
+                    <div class="text-3xl text-theme-muted group-hover:text-white mb-4 transition-colors">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="font-bold text-theme-text group-hover:text-white mb-2 transition-colors">Comentarios</h3>
+                    <p class="text-xs text-theme-muted group-hover:text-white/80 transition-colors">Revisar
+                        participación</p>
                 </a>
             </div>
         </div>

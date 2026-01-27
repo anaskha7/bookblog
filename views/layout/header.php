@@ -80,18 +80,25 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-8">
                 <a href="<?= BASE_URL ?>"
-                    class="text-sm font-medium text-theme-muted hover:text-theme-primary transition-colors">Inicio</a>
-                <a href="<?= BASE_URL ?>?controller=rag&action=ask"
-                    class="text-sm font-medium text-theme-muted hover:text-theme-primary transition-colors flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-theme-secondary"></span>
-                    AI Search
-                </a>
+                    class="text-sm font-bold text-theme-text hover:text-theme-primary transition-colors">Inicio</a>
+
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <a href="<?= BASE_URL ?>?controller=post&action=create"
+                        class="text-sm font-bold text-theme-text hover:text-theme-primary transition-colors">Escribir</a>
+                <?php endif; ?>
+
+                <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>?controller=admin&action=dashboard"
+                        class="text-sm font-bold text-red-600 hover:text-theme-primary transition-colors">Admin</a>
+                <?php endif; ?>
+
+
             </div>
 
             <!-- Auth/User -->
             <div class="flex items-center gap-3">
                 <?php if (!empty($_SESSION['user_id'])): ?>
-                    <span class="text-sm font-serif italic text-theme-muted hidden sm:block">Hola,
+                    <span class="text-sm font-serif font-semibold text-theme-text hidden sm:block">Hola,
                         <?= htmlspecialchars($_SESSION['name']) ?></span>
                     <a href="<?= BASE_URL ?>?controller=user&action=logout"
                         class="w-10 h-10 rounded-full border border-[#E7E5E4] flex items-center justify-center text-theme-muted hover:text-red-500 hover:border-red-200 transition-colors bg-white">
@@ -113,3 +120,16 @@
 
     <!-- Main Content -->
     <main class="w-full pt-32 pb-20 px-4 md:px-8 max-w-[1400px] mx-auto flex-1">
+        <?php if (isset($_SESSION['flash'])): ?>
+            <?php
+            $f = $_SESSION['flash'];
+            $bg = $f['type'] === 'error' ? 'bg-red-100 border-red-200 text-red-700' : 'bg-green-100 border-green-200 text-green-700';
+            $icon = $f['type'] === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle';
+            ?>
+            <div class="<?= $bg ?> border px-4 py-3 rounded-xl mb-6 flex items-center gap-3 shadow-sm max-w-4xl mx-auto"
+                role="alert">
+                <i class="fas <?= $icon ?>"></i>
+                <span class="block sm:inline font-medium"><?= htmlspecialchars($f['message']) ?></span>
+            </div>
+            <?php unset($_SESSION['flash']); ?>
+        <?php endif; ?>

@@ -1,54 +1,40 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  php:
+  web:
     build: .
     ports:
-      - "8080:80"
+      - "8000:80"
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html
+    depends_on:
+      - db
     environment:
-      DB_HOST: host.docker.internal
-      DB_NAME: book_blog
-      DB_USER: docker_user
-      DB_PASS: anas7anas
-      ADMIN_SECRET_CODE: ${ADMIN_SECRET_CODE:-LIBROS2026}
-      N8N_WEBHOOK_URL: http://n8n:5678/webhook/book-events
-      N8N_WEBHOOK_TOKEN: ${N8N_WEBHOOK_TOKEN:-secreto}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - DB_HOST=db
+      - DB_NAME=book_blog
+      - DB_USER=user
+      - DB_PASS=secret
+      - BASE_URL=http://localhost:8000/
 
-  # mysql:
-  #   image: mysql:8
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: anas7anas
-  #     MYSQL_DATABASE: book_blog
-  #   volumes:
-  #     - db_data:/var/lib/mysql
-  #     - ./database/database.sql:/docker-entrypoint-initdb.d/database.sql
-  #   ports:
-  #     - "3307:3306"
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: book_blog
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root_secret
+    volumes:
+      - db_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: host.docker.internal
-      PMA_USER: docker_user
-      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-anas7anas}
+    links:
+      - db
     ports:
-      - "8081:80"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  n8n:
-    image: n8nio/n8n
-    ports:
-      - "5678:5678"
+      - "8080:80"
     environment:
-      - GENERIC_TIMEZONE=Europe/Madrid
-    volumes:
-      - n8n_data:/home/node/.n8n
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root_secret
 
 volumes:
   db_data:
-  n8n_data:

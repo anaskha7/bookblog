@@ -11,8 +11,7 @@ class Comment
 
     public function create(array $data): int
     {
-        // Base de datos local usa columna 'text', el código espera 'body'
-        $stmt = $this->db->prepare('INSERT INTO comments (post_id, user_id, text, rating, created_at) VALUES (:post_id, :user_id, :body, :rating, NOW())');
+        $stmt = $this->db->prepare('INSERT INTO comments (post_id, user_id, body, rating, created_at) VALUES (:post_id, :user_id, :body, :rating, NOW())');
         $stmt->execute([
             ':post_id' => $data['post_id'],
             ':user_id' => $data['user_id'],
@@ -25,7 +24,7 @@ class Comment
 
     public function forPost(int $postId): array
     {
-        $stmt = $this->db->prepare('SELECT comments.id, comments.post_id, comments.user_id, comments.text as body, comments.rating, comments.created_at, users.username FROM comments JOIN users ON users.id = comments.user_id WHERE comments.post_id = :post_id ORDER BY comments.created_at DESC');
+        $stmt = $this->db->prepare('SELECT comments.id, comments.post_id, comments.user_id, comments.body, comments.rating, comments.created_at, users.username FROM comments JOIN users ON users.id = comments.user_id WHERE comments.post_id = :post_id ORDER BY comments.created_at DESC');
         $stmt->execute([':post_id' => $postId]);
         return $stmt->fetchAll();
     }
@@ -38,7 +37,7 @@ class Comment
 
     public function find(int $id): ?array
     {
-        $stmt = $this->db->prepare('SELECT id, post_id, user_id, text as body, rating, created_at FROM comments WHERE id = :id');
+        $stmt = $this->db->prepare('SELECT id, post_id, user_id, body, rating, created_at FROM comments WHERE id = :id');
         $stmt->execute([':id' => $id]);
         $comment = $stmt->fetch();
 
@@ -47,7 +46,7 @@ class Comment
 
     public function all(): array
     {
-        $stmt = $this->db->query('SELECT comments.id, comments.post_id, comments.user_id, comments.text as body, comments.rating, comments.created_at, users.username AS author, posts.title AS post_title FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id ORDER BY comments.created_at DESC');
+        $stmt = $this->db->query('SELECT comments.id, comments.post_id, comments.user_id, comments.body, comments.rating, comments.created_at, users.username AS author, posts.title AS post_title FROM comments JOIN users ON users.id = comments.user_id JOIN posts ON posts.id = comments.post_id ORDER BY comments.created_at DESC');
         return $stmt->fetchAll();
     }
 
