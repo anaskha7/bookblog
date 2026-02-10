@@ -84,7 +84,7 @@
 
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <a href="<?= BASE_URL ?>?controller=post&action=create"
-                        class="text-sm font-bold text-theme-text hover:text-theme-primary transition-colors">Escribir</a>
+                        class="text-sm font-bold text-theme-text hover:text-theme-primary transition-colors">Publicar</a>
                 <?php endif; ?>
 
                 <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>

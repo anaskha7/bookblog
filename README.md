@@ -15,20 +15,18 @@
 - `models/`: acceso a datos para `Post`, `User`, `Comment`, `Category`.
 - `views/`: vistas de inicio, detalle, auth, admin, etc., con encabezado y pie comunes.
 - `public/`: CSS generado y assets. Tailwind se usa desde CDN en las vistas.
-- `database.sql`: crea la base de datos MySQL con tablas y un usuario admin de ejemplo.
-- `Dockerfile` y `docker-compose.yml`: definen los servicios PHP/Apache, MySQL, phpMyAdmin y n8n para webhooks.
+
+- `Dockerfile` y `docker-compose.yml`: definen los servicios PHP/Apache, MySQL, phpMyAdmin.
 
 ## Cómo arrancar
 1) Tener Docker y Docker Compose instalados.  
 2) En la raíz del proyecto: `docker compose up --build` (usa `-d` si quieres modo daemon).  
-3) La app queda en `http://localhost:8080`. phpMyAdmin en `http://localhost:8081`. n8n en `http://localhost:5678`.  
-4) La base de datos se llena con `database.sql` la primera vez. Usuario admin: `admin@example.com`, password `password`.  
+3) La app queda en `http://localhost:8080`. phpMyAdmin en `http://localhost:8081`.  
+4) Usuario admin: `admin@example.com`, password `password`.  
 
 ## Roles y permisos
 - `admin`: puede todo, incluido acceder al panel admin y borrar contenido.
 - `writer`: puede crear y editar sus posts.
 - `subscriber`: puede leer y comentar.
 
-## Webhooks y n8n
-Los eventos de creación y borrado de comentarios y creación de posts se envían a `N8N_WEBHOOK_URL` con el token `N8N_WEBHOOK_TOKEN`. Las variables vienen de `config/config.php` y se pueden cambiar por entorno en `docker-compose.yml`.
 

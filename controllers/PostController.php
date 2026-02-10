@@ -48,15 +48,21 @@ class PostController extends BaseController
 
         $comments = $this->commentModel->forPost($id);
         $avgRating = $this->commentModel->averageRating($id);
+
+        // RAG/Relacionados
+        $relatedPosts = $this->postModel->getRelated($id, $post['title'], $post['content']);
+
         $this->render('posts/show', [
             'post' => $post,
             'comments' => $comments,
             'avgRating' => $avgRating,
+            'relatedPosts' => $relatedPosts
         ]);
     }
 
     private function handleFileUpload(?array $file, array &$errors): ?string
     {
+        ini_set('memory_limit', '256M'); // Aumentar memoria para imágenes grandes
         if (!$file || ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
             return null;
         }
@@ -66,9 +72,9 @@ class PostController extends BaseController
             return null;
         }
 
-        $maxSize = 5 * 1024 * 1024;
+        $maxSize = 64 * 1024 * 1024;
         if ($file['size'] > $maxSize) {
-            $errors[] = 'La portada no puede superar 5MB.';
+            $errors[] = 'La portada no puede superar 64MB.';
             return null;
         }
 
@@ -129,6 +135,17 @@ class PostController extends BaseController
                 ]);
 
 
+
+                // Integración n8n: Enviar notificación
+                $this->triggerN8nWebhook([
+                    'event' => 'new_post',
+                    'post_id' => $postId,
+                    'title' => $title,
+                    'summary' => substr($content, 0, 200) . '...',
+                    'author_id' => $_SESSION['user_id'],
+                    'image_url' => $imagePath ? (BASE_URL . $imagePath) : null,
+                    'created_at' => date('Y-m-d H:i:s')
+                ]);
 
                 $this->setFlash('¡Reseña publicada con éxito! Gracias por compartir.');
                 $this->redirect(BASE_URL . '?controller=post&action=show&id=' . $postId);

@@ -5,7 +5,7 @@ require __DIR__ . '/../config/config.php';
 require __DIR__ . '/../config/Database.php';
 
 spl_autoload_register(function ($class) {
-    $paths = ['controllers', 'models', 'services'];
+    $paths = ['controllers', 'models'];
     foreach ($paths as $path) {
         $file = __DIR__ . "/../{$path}/{$class}.php";
         if (file_exists($file)) {

@@ -72,4 +72,41 @@ class BaseController
     {
         $_SESSION['flash'] = ['message' => $message, 'type' => $type];
     }
+
+    protected function triggerN8nWebhook(array $data): void
+    {
+        if (defined('N8N_WEBHOOK_URL') && filter_var(N8N_WEBHOOK_URL, FILTER_VALIDATE_URL)) {
+            $ch = curl_init(N8N_WEBHOOK_URL);
+            $payload = json_encode($data);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($payload)
+            ]);
+            // Timeout corto para no bloquear la respuesta al usuario
+            curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+
+            curl_exec($ch);
+            curl_close($ch);
+        }
+    }
+
+    protected function generateCsrf(): string
+    {
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION['csrf_token'];
+    }
+
+    protected function verifyCsrf(?string $token): bool
+    {
+        if (empty($token) || empty($_SESSION['csrf_token'])) {
+            return false;
+        }
+        return hash_equals($_SESSION['csrf_token'], $token);
+    }
 }

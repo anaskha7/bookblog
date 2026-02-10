@@ -53,17 +53,28 @@
             <!-- Portada (Recursos Multimedia) -->
             <div class="space-y-2">
                 <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Portada del Libro</label>
-                <div
-                    class="relative border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:bg-slate-50 transition-colors hover:border-blue-400 group cursor-pointer">
-                    <input type="file" name="image" accept="image/jpeg,image/png,image/webp"
-                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required>
+                <div class="relative border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:bg-slate-50 transition-colors hover:border-blue-400 group cursor-pointer"
+                    onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" name="image" accept="image/jpeg,image/png,image/webp"
+                        class="hidden" required onchange="updateFileName(this)">
                     <div class="space-y-2">
-                        <i
+                        <i id="uploadIcon"
                             class="fas fa-cloud-upload-alt text-4xl text-slate-300 group-hover:text-blue-500 transition-colors"></i>
-                        <p class="text-slate-600 font-medium">Click para subir imagen</p>
-                        <p class="text-xs text-slate-400">JPG, PNG o WEBP (Máx. 5MB)</p>
+                        <p id="fileName" class="text-slate-600 font-medium">Click para subir imagen</p>
+                        <p class="text-xs text-slate-400">JPG, PNG o WEBP (Máx. 64MB)</p>
                     </div>
                 </div>
+                <script>
+                    function updateFileName(input) {
+                        const fileNameDisplay = document.getElementById('fileName');
+                        const uploadIcon = document.getElementById('uploadIcon');
+                        if (input.files && input.files[0]) {
+                            fileNameDisplay.textContent = 'Seleccionado: ' + input.files[0].name;
+                            fileNameDisplay.classList.add('text-blue-600');
+                            uploadIcon.className = 'fas fa-check-circle text-4xl text-green-500 transition-colors';
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Buttons -->

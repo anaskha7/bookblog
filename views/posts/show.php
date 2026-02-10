@@ -61,6 +61,37 @@
         </div>
     <?php endif; ?>
 
+    <!-- SECCIÓN DE LECTURAS RELACIONADAS (RAG) -->
+    <?php if (!empty($relatedPosts)): ?>
+        <div class="max-w-3xl mx-auto mt-16 pt-12 border-t border-[#E7E5E4]">
+            <h3 class="text-2xl font-serif font-bold text-theme-text mb-8">También te podría interesar</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <?php foreach ($relatedPosts as $related): ?>
+                    <a href="<?= BASE_URL ?>?controller=post&action=show&id=<?= $related['id'] ?>"
+                        class="group bg-white rounded-2xl p-4 border border-[#E7E5E4] hover:border-theme-primary hover:shadow-md transition-all">
+                        <div class="aspect-square rounded-xl bg-[#F5F5F4] overflow-hidden mb-3 relative">
+                            <?php if (!empty($related['image_url'])): ?>
+                                <img src="<?= htmlspecialchars($related['image_url']) ?>"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <?php else: ?>
+                                <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-300">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <h4
+                            class="font-serif font-bold text-theme-text text-sm leading-tight group-hover:text-theme-primary transition-colors">
+                            <?= htmlspecialchars($related['title']) ?>
+                        </h4>
+                        <span class="text-xs text-theme-muted mt-1 block">
+                            Por <?= htmlspecialchars($related['author']) ?>
+                        </span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <!-- SECCIÓN DE AUTOR / PROFILE CARD -->
     <div class="max-w-3xl mx-auto mt-16 pt-12 border-t border-[#E7E5E4]">
         <div

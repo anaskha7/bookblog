@@ -30,7 +30,7 @@
                     <div class="flex flex-wrap gap-4 pt-4">
                         <a href="<?= BASE_URL ?>?controller=post&action=show&id=<?= $main['id'] ?>"
                             class="px-8 py-4 rounded-full bg-theme-primary text-white font-medium hover:bg-[#8B4513] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
-                            Compartir un libro
+                            Leer Reseña
                         </a>
                         <a href="<?= BASE_URL ?>"
                             class="px-8 py-4 rounded-full bg-white border border-[#E7E5E4] text-theme-text font-medium hover:border-theme-primary transition-all shadow-sm">
